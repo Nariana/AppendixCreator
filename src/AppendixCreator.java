@@ -30,9 +30,9 @@ public class AppendixCreator {
 			System.out.println("File looks empty or invalid. Try again.");
 		}
 		while(content.length() <= 1);
-		System.out.println(content);
 		
 		s.close();
+		content = parseTags(content);
 		
 	}
 	
