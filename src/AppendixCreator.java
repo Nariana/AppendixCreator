@@ -31,8 +31,14 @@ public class AppendixCreator {
 		}
 		while(content.length() <= 1);
 		
+		// close scanner
 		s.close();
+		
+		// parse XML/HTML out of string
 		content = parseTags(content);
+		
+		// parse punctuation and numbers out of string
+		content = parseNonwords(content);
 		
 	}
 	
@@ -51,6 +57,13 @@ public class AppendixCreator {
 	// removes XML/HTML tags in file
 	public static String parseTags(String content){
 		content = content.replaceAll("<[^>]+>", "");
+		System.out.println(content);
+		return content;
+	}
+	
+	// removes all punctuation and numbers in file
+	public static String parseNonwords(String content){
+		content = content.replaceAll("\\p{Punct}|\\p{Digit}", " ");
 		System.out.println(content);
 		return content;
 	}
