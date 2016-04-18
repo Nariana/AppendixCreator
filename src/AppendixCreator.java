@@ -5,6 +5,7 @@ import java.nio.file.*;
 public class AppendixCreator {
 
 	public static void main(String[] args) throws IOException {
+		
 		// create scanner to read user input
 		Scanner s = new Scanner(System.in);
 		String content = null;
@@ -45,6 +46,13 @@ public class AppendixCreator {
 			message = "."; // return 1 character to trigger trying again
 		}
 		return message;
+	}
+	
+	// removes XML/HTML tags in file
+	public static String parseTags(String content){
+		content = content.replaceAll("<[^>]+>", "");
+		System.out.println(content);
+		return content;
 	}
 
 }
