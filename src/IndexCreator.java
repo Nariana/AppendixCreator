@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.io.*;
 import java.nio.file.*;
 
-public class AppendixCreator {
+public class IndexCreator {
 
 	public static void main(String[] args) throws IOException {
 		
@@ -12,7 +12,7 @@ public class AppendixCreator {
 		Scanner s = new Scanner(System.in);
 		String content = null;
 		do{
-		System.out.println("Welcome to the Appendix Creator. Enter a valid file path to begin.");
+		System.out.println("Welcome to the Index Creator. Enter a valid file path to begin.");
 		
 		// read input file path
 //		String inpath = s.next();
@@ -47,15 +47,19 @@ public class AppendixCreator {
 		// parse filler words out of string
 		content = parseStopWords(content);
 		
-		// create list for appendix now that main words are identified
-		String [] a = content.split("\\s+");
-		List<String> appendix = Arrays.asList(a);
+		// create list for index now that main words are identified
+		String [] a = content.split("\\s");
+		List<String> index = Arrays.asList(a);
 		
-//		appendix = stemWords(appendix);
+//		index = stemWords(index);
 		
 		JDBC j = new JDBC();
-		j.createDB(appendix);
-		
+		j.createDB(index);
+		//j.selectIndex();
+		//j.selectGroup();
+		//j.selectGroupAsc();
+		j.selectGroupDesc();
+		j.closeDB();
 	}
 	
 	// read contents of file into string
@@ -87,7 +91,7 @@ public class AppendixCreator {
 	// removes stop words in file, such as article adjectives
 	public static String parseStopWords(String content){
 		// hard-coded URL with text file for stop words
-		String stopURL = "C:/Users/ysands/workspace/AppendixCreator/stopwords.txt";
+		String stopURL = "C:/Users/ysands/workspace/IndexCreator/stopwords.txt";
 		// read words in file into string
 		String stopWords = readFile(stopURL);
 		
@@ -102,8 +106,8 @@ public class AppendixCreator {
 		}
 		
 		// remove single characters
-		content = content.replaceAll("\\s+[^\\s]{1}\\s+", " ");
-		
+		//content = content.replaceAll("\\s+[^\\s]{1}\\s+", " ");
+		content = content.replaceAll("^.{1}\\s+|\\s+.{1}\\s+|\\s+.{1}$", " ");
 		//System.out.println(content);
 		
 		return content;
@@ -111,14 +115,14 @@ public class AppendixCreator {
 	}
 	
 	// TODO
-	public static List<String> stemWords(List<String> appendix){
+	public static List<String> stemWords(List<String> index){
 		Stemmer s = new Stemmer();
-//		for(int i = 0; i < appendix.size(); i++){
-//			appendix.set(i, s.stem(appendix.get(i)));
+//		for(int i = 0; i < index.size(); i++){
+//			index.set(i, s.stem(index.get(i)));
 //		}
 //		
 		
-		return appendix;
+		return index;
 	}
 
 }
