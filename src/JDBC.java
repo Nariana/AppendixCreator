@@ -28,19 +28,35 @@ public class JDBC {
       
       String sql = "DROP DATABASE IF EXISTS APPENDIX";
       stmt.executeUpdate(sql);
-      sql = "CREATE DATABASE APPENDIX";
+      sql = "CREATE DATABASE Appendix";
       stmt.executeUpdate(sql);
-      sql = "USE APPENDIX";
+      sql = "USE Appendix";
       stmt.executeUpdate(sql);
       sql = "CREATE TABLE WordCount" +
-    		  "(word VARCHAR(50) not NULL, " +
-    		  "count INTEGER DEFAULT 1," +
-    		  "PRIMARY KEY (word))";
+    		  "(word VARCHAR(50), " +
+    		  "count INTEGER DEFAULT 1)";
       stmt.executeUpdate(sql);
       
       System.out.println("Database created successfully. Adding values...");
       
+      for(int i = 0; i < a.size(); i++){
+    	  sql = "INSERT INTO WordCount VALUES ('" + a.get(i) + "',1)";
+    	  stmt.executeUpdate(sql);
+      }
       
+      sql = "SELECT * FROM WordCount";
+      ResultSet rs = stmt.executeQuery(sql);
+      while(rs.next()){
+    	  String word = rs.getString("word");
+    	  int count = rs.getInt("count");
+    	  
+    	  System.out.print(word + " " + count + "\n");
+      }
+      
+      rs.close();
+      
+      System.out.println("Inserted values into appendix!");
+    		  
    }catch(SQLException se){
       //Handle errors for JDBC
       se.printStackTrace();

@@ -28,7 +28,7 @@ public class AppendixCreator {
 		
 		// read contents of file into string
 //		content = readFile(inpath);
-		content = "!!The z the cats ran for their life! But I didn't stop it; alligators are my favorite.";
+		content = "!!The z the cats cats ran for their life! But I didn't stop it; alligators are my favorite.";
 		// if file has <= 1 character, prompt user to try again
 		if (content.length() <= 1)
 			System.out.println("File looks empty or invalid. Try again.");
