@@ -28,7 +28,7 @@ public class AppendixCreator {
 		
 		// read contents of file into string
 //		content = readFile(inpath);
-		content = "!!The the cats ran for their life! But I didn't stop it; alligators are my favorite.";
+		content = "!!The z the cats ran for their life! But I didn't stop it; alligators are my favorite.";
 		// if file has <= 1 character, prompt user to try again
 		if (content.length() <= 1)
 			System.out.println("File looks empty or invalid. Try again.");
@@ -91,7 +91,11 @@ public class AppendixCreator {
 		for(int i = 0; i < stopWordsList.size(); i++){
 			content = content.replaceAll("(?i)\\s*\\b"+ stopWordsList.get(i)+"\\b\\s*", " ");
 		}
-		//System.out.println(content);
+		
+		// remove single characters
+		content = content.replaceAll("\\s+[^\\s]{1}\\s+", " ");
+		
+		System.out.println(content);
 		return content;
 		
 	}
