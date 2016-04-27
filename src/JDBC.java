@@ -14,7 +14,7 @@ public class JDBC {
 	static Connection conn = null;
 	static Statement stmt = null;
 
-	public static void createDB(List <String> index) {
+	public void createDB(List <String> index) {
 		//Connection conn = null;
 		//Statement stmt = null;
 		try{
@@ -36,7 +36,7 @@ public class JDBC {
 			sql = "USE MyIndex";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE WordCount" +
-					"(word VARCHAR(50) NOT NULL)";
+					"(word VARCHAR(1000) NOT NULL)";
 			stmt.executeUpdate(sql);
 
 			System.out.println("Database created successfully. Adding values...");
@@ -57,7 +57,7 @@ public class JDBC {
 		}
 	}
 
-	public static void selectIndex(){
+	public void selectIndex(){
 		// display index
 		String sql = null;
 		sql = "SELECT * FROM WordCount";
@@ -69,11 +69,13 @@ public class JDBC {
 			e.printStackTrace();
 		}
 		try {
+			System.out.println("----------");
 			while(rs.next()){
 				String word = rs.getString("word");
 
 				System.out.print(word + "\n");
 			}
+			System.out.println("----------");
 
 			rs.close();
 		} catch (SQLException e) {
@@ -83,7 +85,7 @@ public class JDBC {
 
 	}
 	
-	public static void selectGroup(){
+	public void selectGroup(){
 		// display index
 		String sql = null;
 		sql = "SELECT word, COUNT(word) FROM WordCount GROUP BY word";
@@ -95,12 +97,14 @@ public class JDBC {
 			e.printStackTrace();
 		}
 		try {
+			System.out.println("----------");
 			while(rs.next()){
 				String word = rs.getString("word");
 				int count = rs.getInt("COUNT(word)");
 
 				System.out.print(word + " " + count + "\n");
 			}
+			System.out.println("----------");
 
 			rs.close();
 		} catch (SQLException e) {
@@ -109,7 +113,7 @@ public class JDBC {
 		}
 	}
 	
-	public static void selectGroupAsc(){
+	public void selectGroupAlphaAsc(){
 		// display index
 		String sql = null;
 		sql = "SELECT word, COUNT(word) FROM WordCount GROUP BY word ORDER BY word ASC";
@@ -121,12 +125,14 @@ public class JDBC {
 			e.printStackTrace();
 		}
 		try {
+			System.out.println("----------");
 			while(rs.next()){
 				String word = rs.getString("word");
 				int count = rs.getInt("COUNT(word)");
 
 				System.out.print(word + " " + count + "\n");
 			}
+			System.out.println("----------");
 
 			rs.close();
 		} catch (SQLException e) {
@@ -135,7 +141,35 @@ public class JDBC {
 		}
 	}
 	
-	public static void selectGroupDesc(){
+	public void selectGroupNumAsc(){
+		// display index
+		String sql = null;
+		sql = "SELECT word, COUNT(word) FROM WordCount GROUP BY word ORDER BY COUNT(word) ASC";
+		ResultSet rs = null;
+		try {
+			rs = stmt.executeQuery(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			System.out.println("----------");
+			while(rs.next()){
+				String word = rs.getString("word");
+				int count = rs.getInt("COUNT(word)");
+
+				System.out.print(word + " " + count + "\n");
+			}
+			System.out.println("----------");
+
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void selectGroupAlphaDesc(){
 		// display index
 		String sql = null;
 		sql = "SELECT word, COUNT(word) FROM WordCount GROUP BY word ORDER BY word DESC";
@@ -147,12 +181,14 @@ public class JDBC {
 			e.printStackTrace();
 		}
 		try {
+			System.out.println("----------");
 			while(rs.next()){
 				String word = rs.getString("word");
 				int count = rs.getInt("COUNT(word)");
 
 				System.out.print(word + " " + count + "\n");
 			}
+			System.out.println("----------");
 
 			rs.close();
 		} catch (SQLException e) {
@@ -160,8 +196,37 @@ public class JDBC {
 			e.printStackTrace();
 		}
 	}
+	
+	public void selectGroupNumDesc(){
+		// display index
+		String sql = null;
+		sql = "SELECT word, COUNT(word) FROM WordCount GROUP BY word ORDER BY COUNT(word) DESC";
+		ResultSet rs = null;
+		try {
+			rs = stmt.executeQuery(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			System.out.println("----------");
+			while(rs.next()){
+				String word = rs.getString("word");
+				int count = rs.getInt("COUNT(word)");
 
-	public static void closeDB(){
+				System.out.print(word + " " + count + "\n");
+			}
+			System.out.println("----------");
+
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+
+	public void closeDB(){
 		//finally block used to close resources
 		try{
 			if(stmt!=null)
@@ -175,6 +240,6 @@ public class JDBC {
 			se.printStackTrace();
 		}//end finally try
 
-		System.out.println("Goodbye!");
+		System.out.println("Closing DB");
 	}//end main
 }//end JDBCExample

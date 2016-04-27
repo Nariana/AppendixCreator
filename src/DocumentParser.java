@@ -7,7 +7,7 @@ import java.util.List;
 
 public class DocumentParser {
 	// read contents of file into string
-		public static String readFile(String inpath){
+		public String readFile(String inpath){
 			String message = null;
 			try{
 				message = new String(Files.readAllBytes(Paths.get(inpath)));
@@ -19,13 +19,13 @@ public class DocumentParser {
 		}
 		
 		// removes XML/HTML tags in file
-		public static String parseTags(String content){
+		public String parseTags(String content){
 			content = content.replaceAll("<[^>]+>", "");
 			return content;
 		}
 		
 		// removes all punctuation and numbers in file
-		public static String parseNonWords(String content){
+		public String parseNonWords(String content){
 			// removes all digits and punctuation, excluding conjoining apostrophes because they make conjunctions
 			content = content.replaceAll("^\\p{Punct}+|\\W+\\p{Punct}+|\\p{Punct}+\\W+|\\p{Punct}+$"," ").replaceAll("\\p{Punct}&&[^\u0027]|\\p{Digit}", " ");
 			//System.out.println(content);
@@ -33,7 +33,7 @@ public class DocumentParser {
 		}
 		
 		// removes stop words in file, such as article adjectives
-		public static String parseStopWords(String content){
+		public String parseStopWords(String content){
 			// hard-coded URL with text file for stop words
 			String stopURL = "C:/Users/ysands/workspace/IndexCreator/stopwords.txt";
 			// read words in file into string
@@ -51,7 +51,7 @@ public class DocumentParser {
 			
 			// remove single characters
 			//content = content.replaceAll("\\s+[^\\s]{1}\\s+", " ");
-			content = content.replaceAll("^.{1}\\s+|\\s+.{1}\\s+|\\s+.{1}$", " ");
+			content = content.replaceAll("^.{1}\\s+|\\s+.{1}\\s+|\\s+.{1}$", " ").replaceAll("\\p{Punct}", "");
 			//System.out.println(content);
 			
 			return content;
@@ -59,14 +59,14 @@ public class DocumentParser {
 		}
 		
 		// TODO
-		public static List<String> stemWords(List<String> index){
-			Stemmer s = new Stemmer();
+//		public List<String> stemWords(List<String> index){
+//			Stemmer s = new Stemmer();
 //			for(int i = 0; i < index.size(); i++){
 //				index.set(i, s.stem(index.get(i)));
 //			}
 //			
-			
-			return index;
-		}
+//			
+//			return index;
+//		}
 
 }
