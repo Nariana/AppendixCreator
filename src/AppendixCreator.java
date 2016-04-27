@@ -47,6 +47,15 @@ public class AppendixCreator {
 		// parse filler words out of string
 		content = parseStopWords(content);
 		
+		// create list for appendix now that main words are identified
+		String [] a = content.split("\\s+");
+		List<String> appendix = Arrays.asList(a);
+		
+//		appendix = stemWords(appendix);
+		
+		JDBC j = new JDBC();
+		j.createDB(appendix);
+		
 	}
 	
 	// read contents of file into string
@@ -95,9 +104,21 @@ public class AppendixCreator {
 		// remove single characters
 		content = content.replaceAll("\\s+[^\\s]{1}\\s+", " ");
 		
-		System.out.println(content);
+		//System.out.println(content);
+		
 		return content;
 		
+	}
+	
+	// TODO
+	public static List<String> stemWords(List<String> appendix){
+		Stemmer s = new Stemmer();
+//		for(int i = 0; i < appendix.size(); i++){
+//			appendix.set(i, s.stem(appendix.get(i)));
+//		}
+//		
+		
+		return appendix;
 	}
 
 }
