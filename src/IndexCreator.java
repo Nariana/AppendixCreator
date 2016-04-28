@@ -29,8 +29,10 @@ public class IndexCreator {
 			DocumentParser dp = new DocumentParser();
 			
 			// read contents of file into string
-			//content = dp.readFile(input);
-			content = "<html>!!The z the cats cats cats ran for their life! But I didn't stop it; alligators are my life. They're my favorite.</html>";
+			// "dummy.txt" has already been provided. It runs very quickly. Used in class demo.
+			// "WikiDump100.xml" has already been provided. Give it a minute to run.
+			content = dp.readFile(input);
+			
 			// if file has <= 1 character, prompt user to try again
 			if (content.length() <= 1){
 				System.out.println("File looks empty or invalid. Try again.");
