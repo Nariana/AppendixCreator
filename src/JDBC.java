@@ -1,4 +1,3 @@
-//STEP 1. Import required packages
 import java.sql.*;
 import java.util.List;
 
@@ -7,7 +6,7 @@ public class JDBC {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	static final String DB_URL = "jdbc:mysql://localhost/";
 
-	//  Database credentials
+	//  Database credentials. NOTE: Must change to match MySQL DB credentials.
 	static final String USER = "root";
 	static final String PASS = "root";
 
@@ -15,20 +14,19 @@ public class JDBC {
 	static Statement stmt = null;
 
 	public void createDB(List <String> index) {
-		//Connection conn = null;
-		//Statement stmt = null;
 		try{
-			//STEP 2: Register JDBC driver
+			//Register JDBC driver
 			Class.forName("com.mysql.jdbc.Driver");
 
-			//STEP 3: Open a connection
+			//Open a connection
 			System.out.println("Connecting to database...");
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
-			//STEP 4: Execute a query
+			//Create SQL statement to execute
 			System.out.println("Creating database...");
 			stmt = conn.createStatement();
 
+			// Drop DB. Create DB. Create table for words and count.
 			String sql = "DROP DATABASE IF EXISTS MyIndex";
 			stmt.executeUpdate(sql);
 			sql = "CREATE DATABASE MyIndex";
@@ -36,13 +34,20 @@ public class JDBC {
 			sql = "USE MyIndex";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE WordCount" +
-					"(word VARCHAR(1000) NOT NULL)";
+					"(ID int NOT NULL AUTO_INCREMENT,"
+					+ "word VARCHAR(1000) NOT NULL,"
+					+ "PRIMARY KEY (ID))";
 			stmt.executeUpdate(sql);
 
 			System.out.println("Database created successfully. Adding values...");
 
+			// Populate table with data
 			for(int i = 0; i < index.size(); i++){
-				sql = "INSERT INTO WordCount VALUES ('" + index.get(i) + "')";
+				// Final check to remove any non-words or filler words
+				if(index.get(i).length() < 2)
+					continue;
+				
+				sql = "INSERT INTO WordCount (word) VALUES ('" + index.get(i) + "')";
 				stmt.executeUpdate(sql);
 			}
 
@@ -58,7 +63,7 @@ public class JDBC {
 	}
 
 	public void selectIndex(){
-		// display index
+		// display index with words as-is
 		String sql = null;
 		sql = "SELECT * FROM WordCount";
 		ResultSet rs = null;
@@ -68,6 +73,7 @@ public class JDBC {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		// print results to console
 		try {
 			System.out.println("----------");
 			while(rs.next()){
@@ -86,16 +92,16 @@ public class JDBC {
 	}
 	
 	public void selectGroup(){
-		// display index
+		// display index with words and count
 		String sql = null;
-		sql = "SELECT word, COUNT(word) FROM WordCount GROUP BY word";
+		sql = "SELECT word, COUNT(word) FROM WordCount GROUP BY word ORDER BY ID ASC";
 		ResultSet rs = null;
 		try {
 			rs = stmt.executeQuery(sql);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		// print results to console
 		try {
 			System.out.println("----------");
 			while(rs.next()){
@@ -108,22 +114,21 @@ public class JDBC {
 
 			rs.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	public void selectGroupAlphaAsc(){
-		// display index
+		// display index with words in ascending alphabetical order and count
 		String sql = null;
 		sql = "SELECT word, COUNT(word) FROM WordCount GROUP BY word ORDER BY word ASC";
 		ResultSet rs = null;
 		try {
 			rs = stmt.executeQuery(sql);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		// print results to console
 		try {
 			System.out.println("----------");
 			while(rs.next()){
@@ -136,22 +141,21 @@ public class JDBC {
 
 			rs.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	public void selectGroupNumAsc(){
-		// display index
+		// display index with words in ascending count order and count
 		String sql = null;
 		sql = "SELECT word, COUNT(word) FROM WordCount GROUP BY word ORDER BY COUNT(word) ASC";
 		ResultSet rs = null;
 		try {
 			rs = stmt.executeQuery(sql);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		// print results to console
 		try {
 			System.out.println("----------");
 			while(rs.next()){
@@ -170,16 +174,16 @@ public class JDBC {
 	}
 	
 	public void selectGroupAlphaDesc(){
-		// display index
+		// display index with words in descending alphabetical order and count
 		String sql = null;
 		sql = "SELECT word, COUNT(word) FROM WordCount GROUP BY word ORDER BY word DESC";
 		ResultSet rs = null;
 		try {
 			rs = stmt.executeQuery(sql);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		// print results to console
 		try {
 			System.out.println("----------");
 			while(rs.next()){
@@ -192,22 +196,21 @@ public class JDBC {
 
 			rs.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	public void selectGroupNumDesc(){
-		// display index
+		// display index with words in descending count order and count
 		String sql = null;
 		sql = "SELECT word, COUNT(word) FROM WordCount GROUP BY word ORDER BY COUNT(word) DESC";
 		ResultSet rs = null;
 		try {
 			rs = stmt.executeQuery(sql);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		// print results to console
 		try {
 			System.out.println("----------");
 			while(rs.next()){
@@ -220,7 +223,6 @@ public class JDBC {
 
 			rs.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -240,6 +242,6 @@ public class JDBC {
 			se.printStackTrace();
 		}//end finally try
 
-		System.out.println("Closing DB");
-	}//end main
-}//end JDBCExample
+		System.out.println("Closed DB");
+	}
+}

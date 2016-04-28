@@ -11,7 +11,6 @@ public class IndexCreator {
 		// create scanner to read user input
 		Scanner s = new Scanner(System.in);
 		String input = "";
-		int num = 0;
 		String content = "";
 
 		do{
@@ -31,7 +30,7 @@ public class IndexCreator {
 			
 			// read contents of file into string
 			//content = dp.readFile(input);
-			content = "!!The z the cats cats cats ran for their life! But I didn't stop it; alligators are my life. They're my favorite.";
+			content = "<html>!!The z the cats cats cats ran for their life! But I didn't stop it; alligators are my life. They're my favorite.</html>";
 			// if file has <= 1 character, prompt user to try again
 			if (content.length() <= 1){
 				System.out.println("File looks empty or invalid. Try again.");
@@ -65,27 +64,27 @@ public class IndexCreator {
 						"6 = Display all words and count in numerical descending order \n" +
 						"7 = Start over \n");
 				
-				num = s.nextInt();
-				System.out.println("You entered " + num);
-				if(num == 1)
+				input = s.next();
+				System.out.println("You entered " + input);
+				if(input.equals("1"))
 					j.selectIndex();
 				
-				else if(num == 2){
+				else if(input.equals("2")){
 					j.selectGroup();
 				}
-				else if(num == 3){
+				else if(input.equals("3")){
 					j.selectGroupAlphaAsc();
 				}
-				else if(num == 4){
+				else if(input.equals("4")){
 					j.selectGroupAlphaDesc();
 				}
-				else if(num == 5){
+				else if(input.equals("5")){
 					j.selectGroupNumAsc();
 				}
-				else if(num == 6){
+				else if(input.equals("6")){
 					j.selectGroupNumDesc();
 				}
-				else if(num == 7){
+				else if(input.equals("7")){
 					content = "";
 					break;
 				}
